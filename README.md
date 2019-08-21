@@ -1,5 +1,7 @@
 # Tree Exercise
 
+This project is due **Monday September 2nd, 2019**
+
 In this exercise you will implement, in Ruby, several Tree methods.
 
 - `add(value)` - This method adds a value to the Binary Search Tree

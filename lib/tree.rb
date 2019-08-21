@@ -1,56 +1,58 @@
 class TreeNode
-   attr_accessor :value, :left, :right
+  attr_reader :key, :value
+  attr_accessor :left, :right
 
-   def initialize(val)
-     @value = val
-     @left = nil
-     @right = nil
+   def initialize(key, val)
+    @key = key
+    @value = val
+    @left = nil
+    @right = nil
    end
 
-   def add(val)
-      if val <= @value
-        if left.nil?
-          @left = TreeNode.new(val)
-        else
-          @left.add(val)
-        end
+  def add(key, val)
+    if key <= @key
+      if left.nil?
+        @left = TreeNode.new(key, val)
       else
-        if right.nil?
-          @right = TreeNode.new(val)
-        else
-          @right.add(val)
-        end
+        @left.add(key, val)
       end
-   end
-
-   def find(val)
-    if val == @value
-      return true
-    elsif val <= @value
-      return false if @left.nil?
-      return @left.find(val)
     else
-      return false if @right.nil?
-      return @right.find(val)
+      if right.nil?
+        @right = TreeNode.new(key, val)
+      else
+        @right.add(key, val)
+      end
+    end
+  end
+
+   def find(key)
+    if key == @key
+      return @value
+    elsif key <= @key
+      return nil if @left.nil?
+      return @left.find(key)
+    else
+      return nil if @right.nil?
+      return @right.find(key)
     end
    end
 
    def inorder(array)
-      left.inorder(array) unless left.nil? 
-      array << @value
-      right.inorder(array) unless right.nil?
+     left.inorder(array) unless left.nil? 
+     array << { key: @key, value: @value }
+     right.inorder(array) unless right.nil?
    end
 
    def preorder(array)
-     array << @value
-     left.preorder(array) unless left.nil?
-     right.preorder(array) unless right.nil?
+    array << { key: @key, value: @value }
+    left.preorder(array) unless left.nil?
+    right.preorder(array) unless right.nil?
    end
 
-   def postorder(array)
+  def postorder(array)
     left.postorder(array) unless left.nil?
     right.postorder(array) unless right.nil?
-    array << @value
+    array << { key: @key, value: @value }
   end
 
   def bfs(list)
@@ -64,7 +66,7 @@ class TreeNode
     def bfs_helper(queue, list)
       return list if queue.size == 0
       first_item = queue.shift
-      list << first_item.value
+      list << { key: first_item.key, value: first_item.value }
       queue << first_item.left unless first_item.left.nil?
       queue << first_item.right unless first_item.right.nil?
 
@@ -79,17 +81,17 @@ class Tree
     @root = nil
   end
 
-  def add(value)
+  def add(key, value)
     if @root == nil
-      @root = TreeNode.new(value)
+      @root = TreeNode.new(key, value)
     else
-      @root.add(value)
+      @root.add(key, value)
     end
   end
 
-  def find(val)
-    return false if @root.nil?
-    return @root.find(val)
+  def find(key)
+    return nil if @root.nil?
+    return @root.find(key)
   end
 
   def inorder
@@ -121,3 +123,4 @@ class Tree
     return "#{self.inorder}"
   end
 end
+

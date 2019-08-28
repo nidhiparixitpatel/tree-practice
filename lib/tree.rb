@@ -49,6 +49,11 @@ class Tree
   # Time Complexity: 
   # Space Complexity: 
   def inorder
+    tree_array = []
+    current_node = @root
+    while current_node
+      tree_array.push({:key => current_node.key, :value => current_node.value})
+    end
     
   end
 
